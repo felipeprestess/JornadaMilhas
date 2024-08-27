@@ -1,0 +1,24 @@
+﻿using System.Reflection;
+using JornadaMilhas.Application.Common.Interfaces;
+using JornadaMilhas.Domain.Entities;
+using JornadaMilhas.Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+
+namespace JornadaMilhas.Infrastructure.Data;
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
+{
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+
+    public DbSet<TodoList> TodoLists => Set<TodoList>();
+
+    public DbSet<TodoItem> TodoItems => Set<TodoItem>();
+
+    public DbSet<Depoimento> Depoimentos => Set<Depoimento>();
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+    }
+}
